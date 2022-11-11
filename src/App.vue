@@ -24,12 +24,14 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  justify-content: center;
 }
 .container {
   background-color: #8db5cc;
   border-radius: 40px;
   height: 98vh;
-  width: 100%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
