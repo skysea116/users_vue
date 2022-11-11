@@ -58,11 +58,10 @@
 <style>
      .usersList {
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
+          flex-wrap: wrap;
           justify-content: center;
-          align-items: center;
-          background-color: #8db5cc;
-          border-radius: 30px;
+
           padding: 20px 0;
           transition: all 0.9s;
      }
@@ -76,9 +75,9 @@
           border-radius: 20px;
           padding: 8px 15px;
           background-color: white;
-          margin: 11px 0;
+          margin: 11px 21px 11px 0;
           font-weight: bold;
-          font-size: 23px;
+          font-size: 21px;
      }
      button {
           border-radius: 30px;
