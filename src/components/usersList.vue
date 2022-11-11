@@ -2,7 +2,7 @@
      <div class="usersList">
 
 
-          <div class="user " v-for="user in users" :key="user.id">
+          <div class="user " v-for="user in this.$store.state.users" :key="user.id">
                <div class="userMain">
                     <p> {{ user.name }} </p>
                     <button @click="isOpen === user.id ? isOpen = false : isOpen = user.id">+</button>
@@ -20,19 +20,25 @@
 
 
 <script>
+     import { mapActions } from 'vuex';
+
      export default {
           data() {
                return {
                     name: 'Имя Фамилин',
                     isOpen: false,
-                    users: [],
+                    
                }
           },
           mounted() {
-               this.userInfo();
+               //this.userInfo();
+               this.GET_USERS_FROM_API()
           },
           methods: {
-               async userInfo() {
+               ...mapActions([
+                    'GET_USERS_FROM_API'
+               ]),
+              /* async userInfo() {
                     const response = await fetch('https://jsonplaceholder.typicode.com/users');
                     const result = await response.json();
 
@@ -48,7 +54,7 @@
                     });
 
                 
-               }
+               }*/
           },
 
      }

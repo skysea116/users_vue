@@ -1,7 +1,7 @@
 <template>
      <div class="info">
           <h2>Картотека юзеров, v 1.0.1</h2>
-          <a href="https://git.informunity.ru/study/weather-vue-krylov-alexander">https://git.informunity.ru/study/weather-vue-krylov-alexander</a>
+          <a href="https://git.informunity.ru/study/weather-vue-krylov-alexander" target="_blank">https://git.informunity.ru/study/weather-vue-krylov-alexander</a>
      </div>
 </template>
 <style>
