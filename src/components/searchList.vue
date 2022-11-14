@@ -1,12 +1,15 @@
 <template>
      <div class="serachBar">
           <input v-model="query" placeholder="Поиск пользователей">
-          <li
-               v-for="(item, index) in computedList"
-               v-bind:key="item.name"
+          <div class="li" v-for="(item, index) in computedList" v-bind:key="item.name">
+               <li
                v-bind:data-index="index"
                v-show="query !== ''"
-          >{{ item.name}} <a :href="'http://'+ item.website" target="_blank" @click="toClean">{{item.website}}</a></li>
+               v-html="toHilight(item.name)"
+          ></li>
+               <a :href="'http://'+ item.website" target="_blank" @click="toClean">{{item.website}}</a>
+
+          </div>
      </div>
 </template>
 
@@ -16,7 +19,7 @@ import { mapActions } from 'vuex';
 export default {
      data() {
           return {
-               query: "",            
+               query: "",   
           }
      },
      mounted() {
@@ -26,27 +29,40 @@ export default {
      computed: {
           computedList: function () {
                var vm = this;
-               return this.$store.state.users.filter(function (item) {
+               let res = this.$store.state.users.filter(function (item){
                     if(vm.query.length >= 3) {
-                         return item.name.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+                         let result = item.name.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1;
+                         return result;
                     }
-               })
+               });
+               return res
           }
      },
 
      methods: {
           ...mapActions([
-               'GET_USERS_FROM_API'
+               'GET_USERS_FROM_API',
           ]),
-          toClean() {
-               this.query = '';
-          }
-     },
 
+          toClean() {
+               this.query = ''
+          },
+          toHilight(current) {
+               let reg = new RegExp(this.query, "i")
+               return current.replace(reg, '<b class="hilight">'+this.query+'</b>')
+          }
+     }
 }
+
 </script>
 
 <style>
+     .hilight {
+          background-color: yellow;
+     }
+     .hilight::first-letter {
+          text-transform: uppercase !important;
+     }
      input {
           border-radius: 30px;
           border: none;
@@ -61,8 +77,7 @@ export default {
      input:focus {
           outline: 3px solid #3bb41d;
      }
-
-     li {
+     .li {
           display: flex;
           justify-content: space-between;
           background-color: white;
