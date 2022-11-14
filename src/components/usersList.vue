@@ -31,30 +31,12 @@
                }
           },
           mounted() {
-               //this.userInfo();
                this.GET_USERS_FROM_API()
           },
           methods: {
                ...mapActions([
                     'GET_USERS_FROM_API'
                ]),
-              /* async userInfo() {
-                    const response = await fetch('https://jsonplaceholder.typicode.com/users');
-                    const result = await response.json();
-
-                    result.forEach(item=> { 
-                         
-                         this.users.push({
-                              id: item.id, 
-                              name: item.name,
-                              username: item.username,
-                              email: item.email,
-                         })
-
-                    });
-
-                
-               }*/
           },
 
      }
