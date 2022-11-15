@@ -12,9 +12,31 @@
                </div>
 
                <div class="userInfo" v-if='isOpen === user.id'>
-                    <p>Имя: <span>{{ user.name }}</span> </p>
-                    <p>Никнейм: <span> {{ user.username }}</span> </p>
-                    <p>Email: <span> {{ user.email }}</span> </p>
+                    <div v-for="(info, index) in user" :key="info.name">
+
+
+                         <p v-if="index !== 'id' && ((index !== 'address') && (index !== 'company') && (index !== 'website'))">{{ index }}: <span>{{ info }}</span> </p>
+                         <p v-if="index === 'website'">{{ index }}: <a :href="'http://'+ info" target="_blank"><span>{{ info }}</span></a> </p>
+
+                         <p v-if="(index === 'address') || (index === 'company')">
+                              <span class="secondary">{{ index }}:</span><br>
+                              <span v-for="(info2, index2) in info" :key="info2.street">
+
+                                   <p v-if="index2 !== 'geo'"><span class="secondary">{{ index2 }}: </span> <span>{{ info2 }}</span></p>
+
+                                   <p v-if="index2 === 'geo'">
+                                        <span class="secondary">{{ index2 }}:</span><br>
+
+                                        <span v-for="(info3, index3) in info2" :key="info3">
+                                             <p><span class="secondary">{{ index3 }}: </span> <span>{{ info3 }}</span></p>
+                                        </span>
+                                   </p>
+
+                              </span> 
+                         </p>
+
+
+                    </div>
                </div>
           </div>
 
@@ -95,16 +117,23 @@
           background-color: rgb(228, 228, 228);
           padding: 15px;
           transition: all ease 3s;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
      }
      .userInfo p {
           display: inline-block;
           padding: 7px;
-          margin: 5px;
+          margin: 9px;
           border-radius: 10px;
           box-shadow: 0 0 11px rgba(122, 122, 122, 0.342);
           color: rgb(88, 88, 88);
           background-color: white;
           font-style: italic;
+     }
+     .secondary {
+          font-style: italic !important;
+          font-weight: normal !important;
      }
      .userInfo p span {
           font-style: normal;

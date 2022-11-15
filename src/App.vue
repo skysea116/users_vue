@@ -22,7 +22,7 @@
   font-family: 'Ubuntu', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
   display: flex;
   justify-content: center;
@@ -30,7 +30,7 @@
 .container {
   background-color: #8db5cc;
   border-radius: 40px;
-  height: 98vh;
+  min-height: 98vh;
   width: 70%;
   display: flex;
   flex-direction: column;
