@@ -1,14 +1,14 @@
 <template>
      <div class="serachBar">
           <input v-model="query" placeholder="Поиск пользователей">
-          <div class="li" v-for="(item, index) in computedList" v-bind:key="item.name">
-               <li
-               v-bind:data-index="index"
-               v-show="query !== ''"
-               v-html="toHilight(item.name)"
-          ></li>
-               <a :href="'http://'+ item.website" target="_blank" @click="toClean">{{item.website}}</a>
 
+          <div class="li" v-for="(item, index) in computedList" v-bind:key="item.name">
+               <div @click="toSaveClickedId(item.id)"><li
+                    v-bind:data-index="index"
+                    v-show="query !== ''"
+                    v-html="toHilight(item.name)"
+               ></li></div>
+               <a :href="'http://'+ item.website" target="_blank" @click="toClean">{{item.website}}</a>
           </div>
      </div>
 </template>
@@ -19,16 +19,16 @@ import { mapActions } from 'vuex';
 export default {
      data() {
           return {
-               query: "",   
+               query: "", //запрос, введёный в поисковую строку
           }
      },
      mounted() {
-          this.GET_USERS_FROM_API()
+          this.GET_USERS_FROM_API() //вызов функции получения данных о пользователях из API
      },
 
      computed: {
-          computedList: function () {
-               var vm = this;
+          computedList: function () { //поисковая фильтрация
+               let vm = this;
                let res = this.$store.state.users.filter(function (item){
                     if(vm.query.length >= 3) {
                          let result = item.name.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1;
@@ -40,16 +40,20 @@ export default {
      },
 
      methods: {
-          ...mapActions([
-               'GET_USERS_FROM_API',
+          ...mapActions([ //получние функции из хранилища
+               'GET_USERS_FROM_API', 
           ]),
 
-          toClean() {
+          toClean() { //очистка поля ввода
                this.query = ''
           },
-          toHilight(current) {
+          toHilight(current) { //выделение совпадающей подстроки
                let reg = new RegExp(this.query, "i")
                return current.replace(reg, '<b class="hilight">'+this.query+'</b>')
+          },
+          toSaveClickedId(id) { //добавление в хранилище id пользователя и перенапревление на страницу "пользователи"
+               this.$store.commit('SET_ID_OF_CLICKED_NAME_TO_STATE', id);
+               this.$router.push('/');
           }
      }
 }
@@ -77,6 +81,14 @@ export default {
      input:focus {
           outline: 3px solid #3bb41d;
      }
+     li {
+          cursor: pointer;
+          transition: all 0.1s;
+     }
+     li:hover {
+          color: rgb(114, 114, 114);
+          transition: all 0.1s;
+     }
      .li {
           display: flex;
           justify-content: space-between;
@@ -88,6 +100,6 @@ export default {
           text-align: left;
           font-size: 18px;
           margin-top: 7px;
-
      }
+
 </style>

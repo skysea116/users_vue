@@ -5,13 +5,16 @@
           <div class="user " v-for="user in this.$store.state.users" :key="user.id">
                <div class="userMain">
                     <p> {{ user.name }} </p>
-                    <button @click="isOpen === user.id ? isOpen = false : isOpen = user.id">+</button>
+                    <button @click="toOpen(user.id)">
+                         <span v-if="isOpen !== user.id ">+</span>
+                         <span v-else>-</span>
+                    </button>
                </div>
 
                <div class="userInfo" v-if='isOpen === user.id'>
-                    <p>Имя: {{user.name}}</p>
-                    <p>Никнейм: {{user.username}}</p>
-                    <p>Email: {{user.email}}</p>
+                    <p>Имя: <span>{{ user.name }}</span> </p>
+                    <p>Никнейм: <span> {{ user.username }}</span> </p>
+                    <p>Email: <span> {{ user.email }}</span> </p>
                </div>
           </div>
 
@@ -25,18 +28,20 @@
      export default {
           data() {
                return {
-                    name: 'Имя Фамилин',
-                    isOpen: false,
-                    
+                    isOpen: false, //видимость подробных данных о пользователе
                }
           },
           mounted() {
-               this.GET_USERS_FROM_API()
+               this.GET_USERS_FROM_API() //вызов функции получения данных о пользователях из API
+               this.toOpen(this.$store.getters.CLICKED_ID)
           },
           methods: {
-               ...mapActions([
-                    'GET_USERS_FROM_API'
+               ...mapActions([ //получние функции из хранилища
+                    'GET_USERS_FROM_API' 
                ]),
+               toOpen(id) {  //открытие подробных данных о пользователе 
+                    this.isOpen === id ? this.isOpen = false : this.isOpen = id
+               }
           },
 
      }
@@ -87,7 +92,7 @@
           width: 520px;
           box-shadow: 0 0 11px rgba(122, 122, 122, 0.342);
           border-radius: 20px;
-          background-color: white;
+          background-color: rgb(228, 228, 228);
           padding: 15px;
           transition: all ease 3s;
      }
@@ -98,6 +103,11 @@
           border-radius: 10px;
           box-shadow: 0 0 11px rgba(122, 122, 122, 0.342);
           color: rgb(88, 88, 88);
+          background-color: white;
+          font-style: italic;
+     }
+     .userInfo p span {
+          font-style: normal;
           font-weight: bold;
      }
 </style>
